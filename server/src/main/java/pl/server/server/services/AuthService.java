@@ -96,7 +96,7 @@ public class AuthService {
             @Email
             String newUserEmail = registrationRequest.getEmail();
     
-            if (userRepository.findByEmail(newUserEmail) != null) {
+            if (userRepository.findByEmail(newUserEmail).isPresent()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Email is taken!");
             }
             if (!userRepository.findByUsername(newUserUsername).isEmpty()) {
