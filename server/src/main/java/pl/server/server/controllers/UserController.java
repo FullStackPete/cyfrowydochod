@@ -26,53 +26,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        try {
-            User user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
-        } catch (ResourceNotFoundException notFoundException) {
-            return ResponseEntity.notFound().build();
-        } catch (RuntimeException exception) {
-            System.err.println(exception);
-            return ResponseEntity.badRequest().build();
-        }
-
-    }
-
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            return ResponseEntity.ok(userService.getAllUsers());
-        } catch (RuntimeException exception) {
-            System.err.println(exception);
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/username/{username}")
-    public ResponseEntity<List<User>> getUserByUsername(@PathVariable String username) { // Optional
-        try {
-            List<User> allUsers = userService.getUsersByUsername(username);
-            return ResponseEntity.ok(allUsers);
-        } catch (RuntimeException exception) {
-            System.err.println(exception);
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        try {
-            User user = userService.getUserByEmail(email);
-            return ResponseEntity.ok(user);
-        } catch (ResourceNotFoundException notFoundException) {
-            return ResponseEntity.notFound().build();
-        } catch (RuntimeException exception) {
-            System.err.println(exception);
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     @PutMapping("/id/{id}")
     public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody User updatedUser,
