@@ -23,6 +23,7 @@ import pl.server.server.DTOs.LoginRequest;
 import pl.server.server.DTOs.RegistrationRequest;
 import pl.server.server.config.JwtAuthenticationFilter;
 import pl.server.server.config.JwtTokenProvider;
+import pl.server.server.helpers.ResourceNotFoundException;
 import pl.server.server.models.User;
 import pl.server.server.models.UserPreferences;
 import pl.server.server.models.UserRole;
@@ -53,7 +54,7 @@ public class AuthService {
                             loginRequest.getEmail(),
                             loginRequest.getPassword()));
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User user = (User) userRepository.findByEmail(loginRequest.getEmail());
+            User user =  userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User not found."));
             String username = user.getUsername();
             UserPreferences userPrefs = userPreferencesRepository.findByUserId(user.getId());
             String jwtAccessToken = tokenProvider.generateToken(userDetails, user.getId(), user.getEmail(),
